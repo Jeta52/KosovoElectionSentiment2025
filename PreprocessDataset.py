@@ -2,6 +2,9 @@ import json
 import pandas as pd
 import re
 import unicodedata
+import os
+import datetime
+import argparse
 from urllib.parse import urlparse
 from nltk.stem.snowball import SnowballStemmer
 
@@ -31,7 +34,18 @@ def stem_word(word):
     """Returns the stemmed root of a word."""
     return stemmer.stem(word)
 
-def extract_facebook_data(json_file, output_csv):
+def extract_facebook_data(json_file):
+    project_dir = os.getcwd() 
+
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    output_dir = os.path.join(project_dir, "tmp", timestamp)
+
+    os.makedirs(output_dir, exist_ok=True)
+
+    output_csv = os.path.join(output_dir, "filtered_election_posts.csv")
+    
+    print(f"Saving dataset to: {output_csv}")
+
     # Load JSON data
     with open(json_file, "r", encoding="utf-8") as file:
         data = json.load(file)
@@ -74,7 +88,8 @@ def extract_facebook_data(json_file, output_csv):
     base_keywords = [
         "zgjedhje", "vota", "kqz", "komision", "kryeminister", "pdk", "ldk", "vv", "aak", "nisma",
         "familje", "shkurt", "numerim", "preleminare", "debat", "kandidat", "opozit", "koalicion",
-        "elektorat", "parti", "qeveri", "mandat", "parlament", "fushat", "kryetar"
+        "elektorat", "parti", "qeveri", "mandat", "parlament", "fushat", "kryetar", "albin", "kurti",
+        "lumir", "abdixhiku", "ramush", "haradinaj", "bedri", "hamza"
     ]
 
     # Generate regex pattern to match keyword variations
@@ -93,10 +108,14 @@ def extract_facebook_data(json_file, output_csv):
     # Save the final dataset
     df.to_csv(output_csv, index=False, encoding="utf-8")
 
-    print(f"Dataset saved to {output_csv}")
+    print(f"Dataset saved to: {output_csv}")
     print(f"Removed {zero_comments_count} records with 0 comments.")
     print(f"Entries where text was empty and is filled by link: {empty_text_filled_count}")
     print(f"Entries removed where text remained empty despite having a link: {empty_text_removed_count}")
 
-# Example usage
-extract_facebook_data("dataset_facebook-posts-scraper_2025-03-12_00-39-14-824.json", "D1_filtered_election_posts.csv")
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Extract Facebook post data and filter election-related content.")
+    parser.add_argument("--fileName", required=True, help="Path to the Facebook posts JSON file")
+    
+    args = parser.parse_args()
+    extract_facebook_data(args.fileName)
