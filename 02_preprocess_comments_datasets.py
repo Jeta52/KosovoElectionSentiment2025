@@ -1,4 +1,6 @@
 import pandas as pd
+import ulid
+from datetime import datetime
 
 INITIAL_COMMENTS_DATASETS = [
     "scraped_datasets/fb_comments/KQZ_COMMENTS_INITIAL_DATASET.xlsx",
@@ -40,8 +42,11 @@ def preprocess():
         # Remove rows where text is null
         df_cleaned = df_cleaned.dropna(subset=["text"])
         
-        # Add ID column
-        df_cleaned.insert(0, "ID", range(1, len(df_cleaned) + 1))
+        # Ensure date column is in datetime format
+        df_cleaned["date"] = pd.to_datetime(df_cleaned["date"], errors='coerce')
+        
+        # Generate ULIDs based on timestamp
+        df_cleaned.insert(0, "ID", [str(ulid.from_timestamp(d.timestamp() if pd.notna(d) else datetime.utcnow().timestamp())) for d in df_cleaned["date"]])
         
         # Rename columns
         df_cleaned = df_cleaned.rename(columns={

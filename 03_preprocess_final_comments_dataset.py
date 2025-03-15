@@ -19,8 +19,8 @@ for file in input_files:
 
 merged_df = pd.concat(all_comments)
 
-# Sort by Comment Timestamp
-merged_df = merged_df.sort_values(by="Comment Timestamp")
+# Sort by ID (ULID-based sorting)
+merged_df = merged_df.sort_values(by="ID")
 
 # Save merged dataset
 merged_df.to_csv("ALL_COMMENTS_PREPROCESSED_DATASET.csv", index=False)
@@ -39,8 +39,8 @@ for file in input_files:
 
 sampled_df = pd.concat(sampled_data)
 
-# Sort sampled dataset by Comment Timestamp
-sampled_df = sampled_df.sort_values(by="Comment Timestamp")
+# Sort sampled dataset by ID (ULID-based sorting)
+sampled_df = sampled_df.sort_values(by="ID")
 
 # Save sampled dataset
 sampled_df.to_csv("SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.csv", index=False)
