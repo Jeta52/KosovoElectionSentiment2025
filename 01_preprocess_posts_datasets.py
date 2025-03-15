@@ -88,12 +88,15 @@ def preprocess():
         df["text"] = df["text"].astype(str).apply(normalize_text)
         
         base_keywords = [
-            "zgjedhje", "vota", "kqz", "komision", "kryeminister", "pdk", "ldk", "vv", "vetvendosje" "aak",
+            "zgjedhje", "vota", "kqz", "komision", "kryeminister", "pdk", "ldk", "vv", "vetevendosje", "aak",
             "nisma", "9 shkurt", "numerim", "preleminare", "debat", "kandidat", "opozit", "koalicion",
             "elektorat", "parti", "qeveri", "mandat", "kuvend", "deputet", "parlament", "fushat", "kurti",
             "abdixhiku", "haradinaj", "hamza"
         ]
         
+        if "DEBAT_PLUS" in json_file:
+            base_keywords.remove("debat")
+
         keyword_patterns = [stem_word(word) for word in base_keywords]
         keyword_pattern = r'\b(' + '|'.join(keyword_patterns) + r')\w*\b'
         
