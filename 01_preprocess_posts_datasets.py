@@ -88,10 +88,10 @@ def preprocess():
         df["text"] = df["text"].astype(str).apply(normalize_text)
         
         base_keywords = [
-            "zgjedhje", "vota", "kqz", "komision", "kryeminister", "pdk", "ldk", "vv", "aak", "nisma",
-            "familje", "shkurt", "numerim", "preleminare", "debat", "kandidat", "opozit", "koalicion",
-            "elektorat", "parti", "qeveri", "mandat", "parlament", "fushat", "kryetar", "albin", "kurti",
-            "lumir", "abdixhiku", "ramush", "haradinaj", "bedri", "hamza"
+            "zgjedhje", "vota", "kqz", "komision", "kryeminister", "pdk", "ldk", "vv", "vetvendosje" "aak",
+            "nisma", "9 shkurt", "numerim", "preleminare", "debat", "kandidat", "opozit", "koalicion",
+            "elektorat", "parti", "qeveri", "mandat", "kuvend", "deputet", "parlament", "fushat", "kurti",
+            "abdixhiku", "haradinaj", "hamza"
         ]
         
         keyword_patterns = [stem_word(word) for word in base_keywords]
