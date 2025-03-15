@@ -23,8 +23,8 @@ merged_df = pd.concat(all_comments)
 merged_df = merged_df.sort_values(by="ID")
 
 # Save merged dataset
-merged_df.to_csv("ALL_COMMENTS_PREPROCESSED_DATASET.csv", index=False)
-print("ALL_COMMENTS_PREPROCESSED_DATASET.csv created successfully.")
+merged_df.to_csv("scraped_datasets/fb_comments/ALL_COMMENTS_PREPROCESSED_DATASET.csv", index=False)
+print("scraped_datasets/fb_comments/ALL_COMMENTS_PREPROCESSED_DATASET.csv created successfully.")
 
 # Sampling dataset
 sample_size = 4000
@@ -43,5 +43,5 @@ sampled_df = pd.concat(sampled_data)
 sampled_df = sampled_df.sort_values(by="ID")
 
 # Save sampled dataset
-sampled_df.to_csv("SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.csv", index=False)
-print("SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.csv created successfully.")
+sampled_df.to_csv("scraped_datasets/fb_comments/SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.csv", index=False)
+print("scraped_datasets/fb_comments/SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.csv created successfully.")
