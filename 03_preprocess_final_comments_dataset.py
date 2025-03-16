@@ -45,3 +45,27 @@ sampled_df = sampled_df.sort_values(by="ID")
 # Save sampled dataset
 sampled_df.to_csv("scraped_datasets/fb_comments/SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.csv", index=False)
 print("scraped_datasets/fb_comments/SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.csv created successfully.")
+
+input_file = "scraped_datasets/fb_comments/SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.csv"
+output_file = "scraped_datasets/fb_comments/SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.1.csv"
+
+df = pd.read_csv(input_file)
+
+# Function to determine the most frequent annotation with tie-breaking
+def most_frequent_annotation(row):
+    annotations = [row["Annot 1"], row["Annot 2"], row["Annot 3"]]
+    counts = {ann: annotations.count(ann) for ann in set(annotations)}  # Count occurrences
+    
+    # Find the maximum occurrence
+    max_occurrences = max(counts.values())
+    most_common = [k for k, v in counts.items() if v == max_occurrences]
+    
+    if len(most_common) == 1:
+        return most_common[0]  # If one clear most common value, return it
+    
+    return 0  # In case of a tie, return 0 (neutral)
+
+df["Final Annotation"] = df.apply(most_frequent_annotation, axis=1)
+
+df.to_csv(output_file, index=False)
+print(f"{output_file} created successfully.")
