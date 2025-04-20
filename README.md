@@ -51,6 +51,14 @@
     - [Input Files](#final-comments-input-files)
     - [How It Works](#final-comments-how-it-works)
     - [Output Files](#final-comments-output-files)
+- [02_Model Training](#02_model-training)
+  - [XLM-RoBERTa](#xml-roberta)
+    - [Overview](#overview)
+    - [Why XLM-RoBERTa?](#why-xlm-roberta)
+    - [Input Files](#input-files)
+    - [How It Works](#how-it-works)
+    - [Output](#output)
+    - [Example Result](#example-result)
 
 ## Project Description
 
@@ -312,6 +320,54 @@ Finally, the results are structured into a DataFrame for better visualization an
 
 This script provides a comprehensive overview of the dataset, ensuring it is **clean, structured, and ready for further processing**. 
 
+# 02_Model_Training
 
+## XML-RoBERTa
+
+The Python script `xml_roberta_base_sentiment.py` fine-tunes the **XLM-RoBERTa** transformer model for multilingual sentiment classification on Kosovo Facebook comments related to the 2025 elections. It uses Hugging Face’s `transformers` and `datasets` libraries, as well as `scikit-learn` for evaluation. The script trains on labeled data and outputs accuracy and classification performance per sentiment category.
+
+The goal is to classify comments into one of the three categories:
+
+- **`0` (Neutral)**
+
+- **`1` (Positive)**
+
+- **`3` (Negative)**
+
+### Why XLM-RoBERTa?
+**XLM-RoBERTa** (Cross-lingual RoBERTa) is a transformer-based language model pretrained on data from **100+ languages**, including **Albanian** and other Balkan languages commonly found in Facebook comments from Kosovo.
+
+It is well-suited for this project because:
+- It supports **multilingual data** natively without translation.
+- It handles **code-switching**, which is common in Kosovo social media (mixing Albanian and English).
+- It captures **semantic meaning** better than traditional models like TF-IDF.
+- It's pre-trained on a massive amount of web text, giving it strong general language understanding.
+
+This makes XLM-RoBERTa a great choice for high-quality **sentiment classification** on noisy, multilingual Facebook comment data.
+
+### Input Files
+The script reads data from this CSV file:
+- `sample_data/SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.1.csv`
+
+### How It Works
+1. **Dependencies**  
+   - Installs required packages (`transformers`, `datasets`, `pandas`, `scikit-learn`).
+   - Disables Weights & Biases tracking for simplicity.
+
+2. **Data Loading & Preprocessing**  
+   - Loads and cleans the CSV file, ensuring it has `Comment` and `Final Annotation` columns.
+   - Maps sentiment labels to integers using a custom label encoding dictionary.
+   - Splits the data into training and test sets (80/20 split).
+   - Converts pandas dataframes to Hugging Face `Dataset` format.
+   - Tokenizes all comments using the pretrained `xlm-roberta-base` tokenizer.
+
+3. **Model Setup**  
+   - Loads `XLM-RoBERTa` for sequence classification.
+   - Specifies training parameters (batch size, learning rate, number of epochs, logging paths).
+   - Wraps everything into a Hugging Face `Trainer`.
+
+4. **Evaluation**  
+   - Predicts on the test set.
+   - Calculates **accuracy**, **precision**, **recall**, and **F1-score** using `classification_report` from `sklearn`.
   ___
 🏷️ **License**: This project is open to use for anyone. You are free to use, modify, and distribute the code as needed.
