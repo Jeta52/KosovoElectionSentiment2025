@@ -4,16 +4,18 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, accuracy_score
 
-data_path = "scraped_datasets/fb_comments/SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.1.csv"
+data_path = "scraped_datasets/fb_comments/SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.99.csv"
 df = pd.read_csv(data_path)
 
 df = df.dropna(subset=["Final Annotation"])
+
+df = df[df["Final Annotation"].astype(str).isin(["0", "1", "2"])]
 
 if "Comment" not in df.columns or "Final Annotation" not in df.columns:
     raise ValueError("Dataset must contain 'Comment' and 'Final Annotation' columns.")
 
 X = df["Comment"]
-y = df["Final Annotation"]
+y = df["Final Annotation"].astype(int)
 
 vectorizer = TfidfVectorizer(max_features=5000)
 X_tfidf = vectorizer.fit_transform(X)
