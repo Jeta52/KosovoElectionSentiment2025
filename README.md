@@ -369,5 +369,61 @@ The script reads data from this CSV file:
 4. **Evaluation**  
    - Predicts on the test set.
    - Calculates **accuracy**, **precision**, **recall**, and **F1-score** using `classification_report` from `sklearn`.
+
+# XGBoost for Sentiment Classification
+
+The Python script `xgboost_sentiment.py` trains on labeled data and outputs accuracy and classification performance per sentiment category.
+In this project, XGBoost is chosen for its ability to handle structured data efficiently, and it's well-suited for tasks where you need to classify text into multiple categories, as is the case here with three sentiment categories.
+The goal is to train the model on labeled Facebook comments, where each comment is associated with a sentiment label (Neutral, Positive, Negative), and then use the trained model to classify new, unseen comments into these categories. The XGBoost model will help automate the classification of large volumes of comments, making it easier to analyze public opinion on the political candidates or issues surrounding the election.
+
+## Why XGBoost?
+**XGBoost** (Extreme Gradient Boosting) is a tree-based algorithm that uses gradient boosting techniques to make predictions. It is well-suited for this project because:
+
+- **High performance**: XGBoost is known for its **speed and efficiency**, making it capable of handling large datasets effectively.
+- **Handles imbalanced data**: XGBoost can manage **imbalanced datasets** by adjusting sample weights, which is helpful for datasets where certain categories (e.g., negative comments) are less frequent.
+- **Feature importance**: It provides **feature importance scores**, which help in understanding which features contribute the most to the model’s predictions.
+- **Flexibility**: It is **versatile**, suitable for both **classification** and **regression tasks**.
+- **Widely used**: XGBoost has been very successful in **machine learning competitions**, proving its efficacy across various domains, including **text classification tasks** like sentiment analysis.
+
+## Input Files
+The script reads data from this CSV file:
+- `sample_data/SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.1.csv`
+
+## How It Works
+
+### Dependencies
+Installs required packages (`xgboost`, `scikit-learn`, `pandas`, `seaborn`, `matplotlib`).
+
+### Data Loading & Preprocessing
+1. Loads and cleans the CSV file, ensuring it has the **Comment** and **Final Annotation** columns.
+2. Maps sentiment labels to integers using a custom label encoding dictionary:
+   - `0` → Neutral
+   - `1` → Positive
+   - `2` → Negative
+3. Splits the data into **training** and **test sets** (80/20 split).
+4. Converts **pandas DataFrames** into arrays suitable for **XGBoost** training.
+5. **Tokenizes the comments** using **TF-IDF** to transform text data into numerical format.
+
+### Model Setup
+1. Loads **XGBoost** for **multi-class classification**.
+2. Specifies training parameters (learning rate, number of trees, depth of trees, etc.).
+3. Wraps everything into a **scikit-learn interface** for easy training and evaluation.
+
+### Evaluation
+1. Trains the model on the training data and makes predictions on the test set.
+2. Calculates **accuracy**, **precision**, **recall**, and **F1-score** using **classification_report** from `sklearn`.
+
+## Key Parameters
+- **learning_rate**: Controls how much the model learns in each iteration. Lower values may lead to better performance but require more trees.
+- **n_estimators**: Number of trees to build. More trees can improve accuracy, but may lead to overfitting.
+- **max_depth**: Maximum depth of each tree. Shallower trees prevent overfitting.
+- **subsample**: Fraction of samples used to build each tree. Reduces overfitting by introducing randomness.
+- **colsample_bytree**: Fraction of features used to build each tree. Helps in reducing overfitting.
+
+## Results & Performance
+- **Confusion Matrix** visualizes the misclassifications between the three sentiment categories (Neutral, Positive, Negative).
+- **Classification Report** provides a detailed evaluation of precision, recall, and F1-score for each class.
+
+
   ___
 🏷️ **License**: This project is open to use for anyone. You are free to use, modify, and distribute the code as needed.
