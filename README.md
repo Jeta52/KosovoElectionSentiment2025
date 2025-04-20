@@ -422,12 +422,15 @@ Installs required packages (`xgboost`, `scikit-learn`, `pandas`, `seaborn`, `mat
 - **n_estimators**: Number of trees to build. More trees can improve accuracy, but may lead to overfitting.
 - **max_depth**: Maximum depth of each tree. Shallower trees prevent overfitting.
 - **subsample**: Fraction of samples used to build each tree. Reduces overfitting by introducing randomness.
-- **colsample_bytree**: Fraction of features used to build each tree. Helps in reducing overfitting.
-
+- **colsample_bytree**: Fraction of features used to build each tree. Helps in reducing overfitting
+  
 ## Results & Performance
 - **Confusion Matrix** visualizes the misclassifications between the three sentiment categories (Neutral, Positive, Negative).
 - **Classification Report** provides a detailed evaluation of precision, recall, and F1-score for each class.
-
+  
+### Output
+![image](https://github.com/user-attachments/assets/2425edd6-57d8-4a49-9b00-5f76a377861d)
+![image](https://github.com/user-attachments/assets/df8fc5bb-451f-451e-b0a4-9f250416cb80)
 
   ___
 🏷️ **License**: This project is open to use for anyone. You are free to use, modify, and distribute the code as needed.
