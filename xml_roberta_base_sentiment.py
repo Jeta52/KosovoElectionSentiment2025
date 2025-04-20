@@ -1,5 +1,5 @@
 import os
-os.environ["WANDB_DISABLED"] = "true"  # 🚫 Disable Weights & Biases
+os.environ["WANDB_DISABLED"] = "true"
 
 import pandas as pd
 import numpy as np
@@ -9,9 +9,10 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trai
 from transformers import DataCollatorWithPadding
 from datasets import Dataset
 
-data_path = "sample_data/SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.1.csv"
+data_path = "scraped_datasets/fb_comments/SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.99.csv"
 df = pd.read_csv(data_path)
 
+df = df[df["Final Annotation"].isin([0, 1, 2])]
 df = df.dropna(subset=["Final Annotation"])
 if "Comment" not in df.columns or "Final Annotation" not in df.columns:
     raise ValueError("Dataset must contain 'Comment' and 'Final Annotation' columns.")
@@ -30,6 +31,8 @@ MODEL_NAME = "xlm-roberta-base"  # Or use "bert-base-multilingual-cased"
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 
 def tokenize(batch):
+    # Convert all comments to string to avoid issues
+    batch["Comment"] = [str(comment) for comment in batch["Comment"]]
     return tokenizer(batch["Comment"], truncation=True, padding=True)
 
 train_dataset = train_dataset.map(tokenize, batched=True)
