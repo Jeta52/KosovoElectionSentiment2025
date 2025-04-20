@@ -287,7 +287,7 @@ The script first merges all input files into a single dataset. It reads each fil
 
 After merging, the script creates a sampled dataset. It takes 4000 random comments from each dataset except for KQZ, where all 400 comments are included. The sampled dataset is also sorted by `ID` and saved as `SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.csv`.
 
-Finally, the script processes annotations. It reads the sampled dataset and examines the `Annot1`, `Annot2`, and `Annot3` columns. The most frequent annotation value among these three is selected as the `Final Annotation`. If there is a tie, such as `1, 2, 0`, the script defaults to assigning `0` (neutral). The updated dataset, now with final annotations, is saved as `SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.1.csv`.
+Finally, the script processes annotations. It reads the sampled dataset and examines the `Annot1`, `Annot2`, and `Annot3` columns. The most frequent annotation value among these three is selected as the `Final Annotation`. If there is a tie, such as `1, 2, 0`, the script defaults to assigning `0` (neutral). The updated dataset, now with final annotations, is saved as `SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.99.csv`.
 
 ### Output Files <a id="final-comments-output-files"></a>
 
@@ -295,7 +295,7 @@ Finally, the script processes annotations. It reads the sampled dataset and exam
 | ------------------------------------------------ | --------------------------------------- |
 | `ALL_COMMENTS_PREPROCESSED_DATASET.csv`          | Full merged dataset sorted by ID        |
 | `SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.csv`   | Sampled dataset with equal distribution |
-| `SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.1.csv` | Sampled dataset with final annotation   |
+| `SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.99.csv` | Sampled dataset with final annotation   |
 
 
 ## Data quality report
@@ -359,7 +359,7 @@ This makes XLM-RoBERTa a great choice for high-quality **sentiment classificatio
 
 ### Input Files
 The script reads data from this CSV file:
-- `sample_data/SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.1.csv`
+- `scraped_datasets/fb_comments/SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.99.csv`
 
 ### How It Works
 1. **Dependencies**  
@@ -385,6 +385,12 @@ The script reads data from this CSV file:
 ### Output
 <img width="479" alt="image" src="https://github.com/user-attachments/assets/1024c931-2497-4d80-95e5-b3172a5950d8" />
 
+#### General output overview
+- Accuracy: **72.37%**
+- Best performance was on negative comments (2) with high recall and F1-score.
+- Positive comments (0) had the lowest recall, meaning many were missed.
+- Neutral comments (1) had balanced performance but lower than negative.
+
 
 ## XGBoost for Sentiment Classification
 
@@ -403,7 +409,7 @@ The goal is to train the model on labeled Facebook comments, where each comment 
 
 ### Input Files
 The script reads data from this CSV file:
-- `sample_data/SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.1.csv`
+- `scraped_datasets/fb_comments/SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.99.csv`
 
 ### How It Works
 
