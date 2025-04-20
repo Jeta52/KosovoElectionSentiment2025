@@ -59,6 +59,18 @@
     - [How It Works](#how-it-works)
     - [Output](#output)
     - [Example Result](#example-result)
+  - [XGBoost](#xgboost)
+    - [Overview](#overview)
+    - [Why XGBoost?](#why-xgboost)
+    - [Input Files](#input-files)
+    - [How It Works](#how-it-works)
+    - [Output](#output)
+  - [Random Forest](#random-forest)
+    - [Overview](#overview)
+    - [Why Random Forest?](#why-random-forest)
+    - [Input Files](#input-files)
+    - [How It Works](#how-it-works)
+    - [Output](#output)
 
 ## Project Description
 
@@ -66,7 +78,7 @@ This project focuses on **sentiment analysis** of public opinion regarding the *
 
 We generated a dataset of **92888** comments (scraped_datasets/fb_comments/ALL_COMMENTS_PREPROCESSED_DATASET.csv), from which we took a sample of **20429 comments** (scraped_datasets/fb_comments/SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.csv), by scraping comments from six different official Facebook pages of some of the biggest media platforms in Kosovo.
 
-The final dataset we will be working with is **SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.csv** which has: **20429 rows** and **12 columns**:
+The final dataset we will be working with is **SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.99.csv** which has: **20429 rows** and **12 columns**:
 
 - **`ID`** – Unique identifier for each comment.  
 - **`Comment`** – The content of the Facebook comment analyzed for sentiment.  
@@ -134,7 +146,7 @@ The **scraping process** was carried out in a structured manner to ensure data q
    - After processing all six Facebook pages, we merged the datasets into a single file:  
      - **`ALL_COMMENTS_PREPROCESSED_DATASET.csv`** → Contains all cleaned and processed comments.  
    - To ensure a representative dataset, we created a **sampled version** containing a balanced subset of comments:  
-     - **`SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.csv`** → A sampled dataset used for sentiment analysis.  
+     - **`SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.csv`** → A sampled dataset used for sentiment analysis.
 
 This structured approach ensured that the dataset contained only relevant election-related discussions, making it suitable for sentiment analysis and further machine learning applications.  
 
@@ -254,7 +266,7 @@ This phase is done by processing multiple Facebook comments datasets, merges the
 
 1. **ALL\_COMMENTS\_PREPROCESSED\_DATASET.csv** – Contains all merged comments.
 2. **SAMPLE\_ALL\_COMMENTS\_PREPROCESSED\_DATASET.csv** – A balanced sample with 4000 comments per source (except KQZ, which has 400).
-3. **SAMPLE\_ALL\_COMMENTS\_PREPROCESSED\_DATASET.1.csv** – The sampled dataset with an assigned final annotation.
+3. **SAMPLE\_ALL\_COMMENTS\_PREPROCESSED\_DATASET.99.csv** – The sampled dataset with an assigned final annotation.
 
 ### Input Files <a id="final-comments-input-files"></a>
 
@@ -374,13 +386,13 @@ The script reads data from this CSV file:
 <img width="479" alt="image" src="https://github.com/user-attachments/assets/1024c931-2497-4d80-95e5-b3172a5950d8" />
 
 
-# XGBoost for Sentiment Classification
+## XGBoost for Sentiment Classification
 
 The Python script `xgboost_sentiment.py` trains on labeled data and outputs accuracy and classification performance per sentiment category.
 In this project, XGBoost is chosen for its ability to handle structured data efficiently, and it's well-suited for tasks where you need to classify text into multiple categories, as is the case here with three sentiment categories.
 The goal is to train the model on labeled Facebook comments, where each comment is associated with a sentiment label (Neutral, Positive, Negative), and then use the trained model to classify new, unseen comments into these categories. The XGBoost model will help automate the classification of large volumes of comments, making it easier to analyze public opinion on the political candidates or issues surrounding the election.
 
-## Why XGBoost?
+### Why XGBoost?
 **XGBoost** (Extreme Gradient Boosting) is a tree-based algorithm that uses gradient boosting techniques to make predictions. It is well-suited for this project because:
 
 - **High performance**: XGBoost is known for its **speed and efficiency**, making it capable of handling large datasets effectively.
@@ -389,16 +401,16 @@ The goal is to train the model on labeled Facebook comments, where each comment 
 - **Flexibility**: It is **versatile**, suitable for both **classification** and **regression tasks**.
 - **Widely used**: XGBoost has been very successful in **machine learning competitions**, proving its efficacy across various domains, including **text classification tasks** like sentiment analysis.
 
-## Input Files
+### Input Files
 The script reads data from this CSV file:
 - `sample_data/SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.1.csv`
 
-## How It Works
+### How It Works
 
 ### Dependencies
 Installs required packages (`xgboost`, `scikit-learn`, `pandas`, `seaborn`, `matplotlib`).
 
-### Data Loading & Preprocessing
+#### Data Loading & Preprocessing
 1. Loads and cleans the CSV file, ensuring it has the **Comment** and **Final Annotation** columns.
 2. Maps sentiment labels to integers using a custom label encoding dictionary:
    - `0` → Neutral
@@ -408,29 +420,95 @@ Installs required packages (`xgboost`, `scikit-learn`, `pandas`, `seaborn`, `mat
 4. Converts **pandas DataFrames** into arrays suitable for **XGBoost** training.
 5. **Tokenizes the comments** using **TF-IDF** to transform text data into numerical format.
 
-### Model Setup
+#### Model Setup
 1. Loads **XGBoost** for **multi-class classification**.
 2. Specifies training parameters (learning rate, number of trees, depth of trees, etc.).
 3. Wraps everything into a **scikit-learn interface** for easy training and evaluation.
 
-### Evaluation
+#### Evaluation
 1. Trains the model on the training data and makes predictions on the test set.
 2. Calculates **accuracy**, **precision**, **recall**, and **F1-score** using **classification_report** from `sklearn`.
 
-## Key Parameters
+### Key Parameters
 - **learning_rate**: Controls how much the model learns in each iteration. Lower values may lead to better performance but require more trees.
 - **n_estimators**: Number of trees to build. More trees can improve accuracy, but may lead to overfitting.
 - **max_depth**: Maximum depth of each tree. Shallower trees prevent overfitting.
 - **subsample**: Fraction of samples used to build each tree. Reduces overfitting by introducing randomness.
 - **colsample_bytree**: Fraction of features used to build each tree. Helps in reducing overfitting
   
-## Results & Performance
+### Results & Performance
 - **Confusion Matrix** visualizes the misclassifications between the three sentiment categories (Neutral, Positive, Negative).
 - **Classification Report** provides a detailed evaluation of precision, recall, and F1-score for each class.
   
-### Output
+#### Output
 ![image](https://github.com/user-attachments/assets/2425edd6-57d8-4a49-9b00-5f76a377861d)
 ![image](https://github.com/user-attachments/assets/df8fc5bb-451f-451e-b0a4-9f250416cb80)
+
+## Random Forest
+
+### Overview  
+The script `random_forest_sentiment.py` trains a **Random Forest classifier** using the `SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.99.csv` file.
+
+Each comment is labeled as:
+- **0 = Neutral**
+- **1 = Positive**
+- **2 = Negative**
+
+### Why Random Forest?  
+Random Forest builds multiple decision trees and combines their results, making predictions more stable than a single tree. We chose it here because it’s fast and works well with TF-IDF features for text.
+
+### Input Files  
+- `scraped_datasets/fb_comments/SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.99.csv`
+
+### How It Works  
+1. The script reads the CSV file and removes any rows with missing or invalid labels.  
+2. It converts the comment texts into numerical vectors using **TF-IDF** with a limit of 5000 features.  
+3. Then, it splits the data: **80% for training**, **20% for testing**.  
+4. A `RandomForestClassifier` is trained with 100 trees (`n_estimators=100`).  
+5. Finally, it prints the **accuracy** and a **classification report** with precision, recall, and F1-score.
+
+### Output  
+The model reached an **accuracy of 72.49%** on the test set. Here's how to read the classification report:
+
+![image](https://github.com/user-attachments/assets/577c141b-ffab-4e05-acdf-56e4e2630017)
+
+The model performs best at identifying **negative comments (class 2)**, because they are the most common in the dataset.
+
+## Logistic Regression
+
+### Overview  
+The `logistic_regression_sentiment.py` that implements **Logistic Regression** uses two datasets:
+- `SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.99.csv` for the main training and testing
+- `LEMMATIZED_SAMPLE_DATASET.csv` for testing how lemmatization might affect performance
+
+Each comment is labeled as:
+- **0 = Neutral**
+- **1 = Positive**
+- **2 = Negative**
+
+### How It Works  
+The script first vectorizes the comment text using **TF-IDF**, turning words into numbers that the model can understand. It then trains a logistic regression model using the main dataset and evaluates it both on that and on a small lemmatized sample.
+
+Lemmatization is a text normalization step where words like *foli*, *flet*, and *fliste* are reduced to their root form (e.g., *fol*). This can help the model generalize better. We didn’t apply lemmatization to the full dataset, but we made a small sample (`LEMMATIZED_SAMPLE_DATASET.csv`) just to see what effect it might have.
+
+Example difference:
+```
+Original comment: "Respekt për kryeministrin shembullor"
+Lemmatized version: "respekt për kryeministër shembullor"
+```
+
+### Output  
+
+![image](https://github.com/user-attachments/assets/c3c4efb7-0e5a-4c91-8159-1a0dab836b25)
+
+**On the full dataset** (`SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.99.csv`):
+- Accuracy: **77.64%**
+- Best performance was on **negative comments (2)** with high precision and F1-score.
+- Neutral comments had the lowest precision, but good recall.
+
+**On the lemmatized sample**:
+- Accuracy: **72.44%**
+- Performance was more balanced across all three classes, especially helpful for **positive and neutral comments**, though the small size (only 196 samples) makes it hard to judge fully.
 
   ___
 🏷️ **License**: This project is open to use for anyone. You are free to use, modify, and distribute the code as needed.
