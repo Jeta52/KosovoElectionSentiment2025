@@ -369,6 +369,10 @@ The script reads data from this CSV file:
 4. **Evaluation**  
    - Predicts on the test set.
    - Calculates **accuracy**, **precision**, **recall**, and **F1-score** using `classification_report` from `sklearn`.
+  
+### Output
+<img width="479" alt="image" src="https://github.com/user-attachments/assets/1024c931-2497-4d80-95e5-b3172a5950d8" />
+
 
 # XGBoost for Sentiment Classification
 
