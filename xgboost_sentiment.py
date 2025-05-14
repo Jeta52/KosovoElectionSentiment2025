@@ -4,22 +4,26 @@ from xgboost import XGBClassifier
 from sklearn.metrics import classification_report, confusion_matrix
 import seaborn as sns
 import matplotlib.pyplot as plt
-
 import warnings
+
 warnings.filterwarnings('ignore', category=UserWarning)
 
-df = pd.read_csv("scraped_datasets/fb_comments/SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.99.csv", sep=",", on_bad_lines='skip', low_memory=False)
+df = pd.read_csv(
+    "scraped_datasets/fb_comments/SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.99.csv",
+    sep=",", 
+    on_bad_lines='skip', 
+    low_memory=False
+)
 
 df.columns = df.columns.str.strip().str.replace('\ufeff', '')
-
 df = df[['Annot 1', 'Annot 2', 'Annot 3', 'Final Annotation']]
 
-for col in ['Annot 1', 'Annot 2', 'Annot 3', 'Final Annotation']:
+for col in df.columns:
     df[col] = pd.to_numeric(df[col], errors='coerce')
 
-df = df.dropna(subset=['Annot 1', 'Annot 2', 'Annot 3', 'Final Annotation'])
+df.dropna(subset=['Annot 1', 'Annot 2', 'Annot 3', 'Final Annotation'], inplace=True)
 
-if len(df) == 0:
+if df.empty:
     raise ValueError("Nuk ka të dhëna të mjaftueshme për trajnim!")
 
 X = df[['Annot 1', 'Annot 2', 'Annot 3']].astype(int)
@@ -33,20 +37,20 @@ model = XGBClassifier(
     eval_metric='mlogloss',
     use_label_encoder=False
 )
-model.fit(X_train, y_train)
 
+model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
-print("\n Raporti i klasifikimit:\n")
+
+print("\n📊 Raporti i klasifikimit:\n")
 print(classification_report(y_test, y_pred, digits=3))
 
 cm = confusion_matrix(y_test, y_pred)
 labels = ['Neutral (0)', 'Positive (1)', 'Negative (2)']
 
 plt.figure(figsize=(6, 5))
-sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
-            xticklabels=labels, yticklabels=labels)
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=labels, yticklabels=labels)
 plt.xlabel('Predicted')
 plt.ylabel('Actual')
-plt.title('Confusion Matrixa - XGBoost')
+plt.title('Confusion Matrix - XGBoost')
 plt.tight_layout()
 plt.show()
