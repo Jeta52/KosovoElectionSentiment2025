@@ -409,7 +409,7 @@ The goal is to train the model on labeled Facebook comments, where each comment 
 
 ### Input Files
 The script reads data from this CSV file:
-- `scraped_datasets/fb_comments/SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.99.csv`
+- `scraped_datasets/fb_comments/SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.99.csv`.
 
 ### How It Works
 
