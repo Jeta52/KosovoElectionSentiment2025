@@ -78,6 +78,24 @@
   - [XML-RoBERTa Analysis](#xml-roberta-analysis)
   - [TextCNN With Random Forest](#textcnn-with-random-forest)
   - [RNN With Logistic Regression](#rnn-with-logistic-regression)
+  - [Recurrent Neural Network (RNN) - Sentiment Analysis](#recurrent-neural-network-rnn---sentiment-analysis)
+    - [Why RNN?](#why-rnn)
+    - [Input Files](#input-files-3)
+    - [How It Works](#how-it-works-4)
+      - [Data Preprocessing](#data-preprocessing)
+      - [Tokenization and Padding](#tokenization-and-padding)
+      - [Data Splitting](#data-splitting)
+      - [Model Architecture](#model-architecture)
+      - [Training](#training)
+      - [Evaluation and Visualization](#evaluation-and-visualization)
+      - [Model Saving](#model-saving)
+      - [Interactive Mode](#interactive-mode)
+    - [Output](#output-5)
+    - [Confusion Matrix](#confusion-matrix)
+
+
+
+
 
 
 ## Project Description
