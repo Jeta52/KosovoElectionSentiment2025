@@ -634,5 +634,130 @@ The evaluation is based on:
 A visual screenshot of the output below shows training progression and classification metrics:
 
 ![image](https://github.com/user-attachments/assets/678bfe5e-c15f-43b8-8e2f-3306998c8c38)
+
+  # Recurrent Neural Network (RNN) - Sentiment Analysis 
+
+
+The script **`rnn_sentiment_model.py`** trains a **Recurrent Neural Network (RNN)** classifier using the **`SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.99.csv`** file.
+
+Each comment is labeled as:
+
+* `0` = Neutral
+* `1` = Positive
+* `2` = Negative
+
+---
+
+## **Why RNN?**
+
+Recurrent Neural Networks (RNNs) are powerful for sequential data, especially **text data**. The model is designed to:
+
+* Capture the context of words in a comment.
+* Maintain memory of previous words to understand the sentiment.
+* Perform well on variable-length sequences, like comments.
+
+We chose RNN because it is very effective for natural language processing (NLP) tasks, allowing the model to learn dependencies in sequences.
+
+---
+
+## **Input Files**
+
+```
+SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.99.csv
+```
+
+---
+
+## **How It Works**
+
+### **Data Preprocessing**
+
+* The script reads the CSV file and removes any rows with missing or invalid labels.
+* It selects two columns: `Comment` and `Final Annotation`.
+* Labels are converted to integers and filtered to keep only:
+
+  * `0` = Neutral
+  * `1` = Positive
+  * `2` = Negative
+
+### **Tokenization and Padding**
+
+* Each comment is transformed into numerical sequences using a **Tokenizer**.
+* The model considers the **5000 most frequent words** and replaces others with `<OOV>`.
+* All sequences are padded to a fixed length of **100 words** for uniformity.
+
+### **Data Splitting**
+
+* The dataset is split into:
+
+  * **80% for training**
+  * **20% for testing**
+
+### **Model Architecture**
+
+* The RNN model is built with the following layers:
+
+  1. **Embedding Layer:** Converts words into dense vectors.
+  2. **SpatialDropout1D:** Prevents overfitting by ignoring random neurons.
+  3. **LSTM Layer:** Captures sequential patterns in the text.
+  4. **Dense Layer:** A final softmax layer that predicts one of three sentiment classes.
+
+### **Training**
+
+* The model is trained for **5 epochs** with a **batch size of 64**.
+* The optimizer used is **Adam**, and the loss function is **categorical crossentropy**.
+
+### **Evaluation and Visualization**
+
+* The model is evaluated on the test set.
+* A **Confusion Matrix** and a **Classification Report** are displayed to understand performance.
+
+### **Model Saving**
+
+* The trained model is saved as `rnn_sentiment_model.h5`.
+
+### **Interactive Mode**
+
+* An interactive mode is enabled to type a comment and get an instant sentiment prediction.
+
+---
+
+## **Output**
+
+The model achieved an **accuracy of 71.83%** on the test set. Here is how to read the classification report:
+
+```
+              precision    recall  f1-score   support
+               
+           0       0.52      0.42      0.47      1009
+           1       0.72      0.61      0.66       522
+           2       0.77      0.86      0.81      2548
+
+    accuracy                           0.72      4079
+   macro avg       0.67      0.63      0.65      4079
+weighted avg       0.71      0.72      0.71      4079
+```
+
+---
+
+## **Confusion Matrix**
+
+The Confusion Matrix displays the model's predictions versus the actual labels:
+
+* Good classification for **Negative (2)** comments.
+* Mixed classification for **Neutral (0)** and **Positive (1)**.
+
+---
+
+After running, you can interact with the model:
+
+```
+> Shkruaj një koment për ta analizuar (ose shkruaj 'exit' për të dalë):
+This project is really amazing!
+Comment: 'This project is really amazing!' ➡ Sentiment: Positive
+```
+
+
+
   ___
 🏷️ **License**: This project is open to use for anyone. You are free to use, modify, and distribute the code as needed.
