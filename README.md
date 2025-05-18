@@ -76,6 +76,9 @@
       - [Static Analysis](#static-analysis)
       - [Dynamic Analysis](#dynamic-analysis-interactive-dashboard)
   - [XML-RoBERTa Analysis](#xml-roberta-analysis)
+  - [TextCNN With Random Forest](#textcnn-with-random-forest)
+  - [RNN With Logistic Regression](#rnn-with-logistic-regression)
+
 
 ## Project Description
 
