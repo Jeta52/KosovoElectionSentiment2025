@@ -71,6 +71,11 @@
     - [Input Files](#input-files)
     - [How It Works](#how-it-works)
     - [Output](#output)
+- [03_Analysis and Evaluation](#03_analysis-and-evaluation)
+  - [Data Visualization](#data-visuzalization)
+      - [Static Analysis](#static-analysis)
+      - [Dynamic Analysis](#dynamic-analysis-interactive-dashboard)
+  - [XML-RoBERTa Analysis](#xml-roberta-analysis)
 
 ## Project Description
 
@@ -382,53 +387,14 @@ The script reads data from this CSV file:
    - Predicts on the test set.
    - Calculates **accuracy**, **precision**, **recall**, and **F1-score** using `classification_report` from `sklearn`.
   
-In order to find and improve the best results and training parameters from XML-Roberta we have tested using and tweaking different approaches - you can find the said approaches on this [Google Colab](https://colab.research.google.com/drive/1dLjLjSoWx3kQRUq9pphmkysdIv7XE9Fh?usp=sharing).
-
-### 🛠️ Model Details
-- **Backbone**: `xlm-roberta-base` (multilingual)
-- **Batch size**: 8 (with gradient accumulation for stability)
-- **Epochs**: 4 (with early stopping enabled)
-- **Learning rate**: `1e-5` with warm-up ratio `0.06`
-- **Evaluation metric**: `macro_f1`
-- **Tokenization**: Truncation with `max_length=128` and fixed padding
-- **Class balancing**: Optional weighting support can be added if needed
-
-### 📊 Training Diagnostics Highlights
-
-![image](https://github.com/user-attachments/assets/5ef4a2a3-c760-45d8-8cc6-760090c58b5f)
-
-**Loss curves** show consistent decrease in both training and evaluation loss, indicating stable learning and no overfitting.
-
-![image](https://github.com/user-attachments/assets/15d68bbd-0b97-4132-921e-35c57d131826)
-
-**Class 2** achieves high scores across all metrics (F1 ≈ 0.83), showing the model's strength in handling the majority class.
-
-![image](https://github.com/user-attachments/assets/1df891a3-2efd-42a7-be83-8aa8cf9eedad)
-
-**Macro-F1 steadily improves** from 0.63 to 0.69, confirming that the model is learning across all classes.
-
-![image](https://github.com/user-attachments/assets/dc966511-e491-40ad-b8a9-15b666debb86)
-
-The majority class (label 2) is predicted correctly with high accuracy (≈ 88 % recall).
-
-![image](https://github.com/user-attachments/assets/0fb18d5a-22c7-4d4e-9deb-597e68f1595c)
-
-**Prediction confidence** remains high and well-calibrated, with test predictions showing consistent confidence near 0.9+.
-
-![image](https://github.com/user-attachments/assets/a0c8bb75-c841-4c4a-828f-084e5d00a20f)
-
-**Class 0** achieves solid PR-AUC (0.52) despite imbalance, and **class 1** maintains good tradeoff between precision and recall.
-
 ### Output
-<img width="573" alt="image" src="https://github.com/user-attachments/assets/48b3685d-a542-4b42-b2ad-7f2d99f5d0f8" />
+<img width="479" alt="image" src="https://github.com/user-attachments/assets/1024c931-2497-4d80-95e5-b3172a5950d8" />
 
-
-### General Output Overview
-- **Accuracy**: 75.1%
-- The model performs **best on negative comments (label 2)**, with **F1-score of 0.84** and **recall of 0.88**, indicating strong sensitivity to negative sentiment.
-- **Neutral comments (label 1)** show **balanced performance** with an **F1-score of 0.72**, making them the second most accurately classified.
-- **Positive comments (label 0)** are the most challenging..
-- **Macro-averaged F1-score** is **0.69**, showing the model handles all classes reasonably well despite class imbalance.
+#### General output overview
+- Accuracy: **72.37%**
+- Best performance was on negative comments (2) with high recall and F1-score.
+- Positive comments (0) had the lowest recall, meaning many were missed.
+- Neutral comments (1) had balanced performance but lower than negative.
 
 
 ## XGBoost for Sentiment Classification
@@ -554,6 +520,105 @@ Lemmatized version: "respekt për kryeministër shembullor"
 **On the lemmatized sample**:
 - Accuracy: **72.44%**
 - Performance was more balanced across all three classes, especially helpful for **positive and neutral comments**, though the small size (only 196 samples) makes it hard to judge fully.
+
+# 03_Analysis and Evaluation
+
+## Data Visualization
+To explore and communicate patterns from the Facebook comment sentiment dataset related to the Kosovo 2025 national elections, we implemented both **static** and **dynamic** visualizations.
+
+---
+
+### Static Analysis
+
+Using Python libraries such as `pandas`, `matplotlib`, and `seaborn`, the following visual insights were generated offline:
+
+- **Sentiment Distribution**  
+  Bar chart showing the volume of positive, neutral, and negative comments.
+
+- **Weekly Sentiment Trend**  
+  Time series plot of sentiment variation across weeks, highlighting spikes in polarization or engagement.
+
+- **Sentiment by Source**  
+  Stacked bar chart comparing sentiment distributions across media sources (e.g., Klan Kosova, Debat Plus).
+
+- **Top 5 Most Commented Posts**  
+  Stacked bar visualization of sentiment breakdown per post, accompanied by a legend mapping post numbers to shortened titles.
+
+- **Comment Volume Over Time**  
+  Weekly comment count to identify surges in public activity.
+
+- **Comment Length vs Sentiment**  
+  Boxplot examining whether longer comments correlate with a particular sentiment class.
+
+---
+
+### Dynamic Analysis (Interactive Dashboard)
+
+An interactive dashboard was developed using [Streamlit](https://streamlit.io) to allow real-time filtering and visualization of sentiment data.
+
+#### 🔧 Features:
+
+- **Source Filter**: Select one or more Facebook pages to isolate data.
+- **Date Range Filter**: Interactively choose time windows for analysis.
+- **Live Sentiment Distribution**: Automatically updating bar chart.
+- **Weekly Sentiment Line Chart**: Displays weekly sentiment averages.
+- **Random Sample Viewer**: Displays random comments per sentiment.
+- **Label Mapping**: Clear formatting of `0 = Neutral`, `1 = Positive`, `2 = Negative`.
+
+#### ▶️ Run the Dashboard
+
+```bash
+streamlit run sentiment_dashboard.py
+```
+
+## XML-RoBERTa Analysis
+In order to find and improve the best results and training parameters from XML-Roberta we have tested using and tweaking different approaches - you can find the said approaches on this [Google Colab](https://colab.research.google.com/drive/1dLjLjSoWx3kQRUq9pphmkysdIv7XE9Fh?usp=sharing).
+
+### 🛠️ Model Details
+- **Backbone**: `xlm-roberta-base` (multilingual)
+- **Batch size**: 8 (with gradient accumulation for stability)
+- **Epochs**: 4 (with early stopping enabled)
+- **Learning rate**: `1e-5` with warm-up ratio `0.06`
+- **Evaluation metric**: `macro_f1`
+- **Tokenization**: Truncation with `max_length=128` and fixed padding
+- **Class balancing**: Optional weighting support can be added if needed
+
+### 📊 Training Diagnostics Highlights
+
+![image](https://github.com/user-attachments/assets/5ef4a2a3-c760-45d8-8cc6-760090c58b5f)
+
+**Loss curves** show consistent decrease in both training and evaluation loss, indicating stable learning and no overfitting.
+
+![image](https://github.com/user-attachments/assets/15d68bbd-0b97-4132-921e-35c57d131826)
+
+**Class 2** achieves high scores across all metrics (F1 ≈ 0.83), showing the model's strength in handling the majority class.
+
+![image](https://github.com/user-attachments/assets/1df891a3-2efd-42a7-be83-8aa8cf9eedad)
+
+**Macro-F1 steadily improves** from 0.63 to 0.69, confirming that the model is learning across all classes.
+
+![image](https://github.com/user-attachments/assets/dc966511-e491-40ad-b8a9-15b666debb86)
+
+The majority class (label 2) is predicted correctly with high accuracy (≈ 88 % recall).
+
+![image](https://github.com/user-attachments/assets/0fb18d5a-22c7-4d4e-9deb-597e68f1595c)
+
+**Prediction confidence** remains high and well-calibrated, with test predictions showing consistent confidence near 0.9+.
+
+![image](https://github.com/user-attachments/assets/a0c8bb75-c841-4c4a-828f-084e5d00a20f)
+
+**Class 0** achieves solid PR-AUC (0.52) despite imbalance, and **class 1** maintains good tradeoff between precision and recall.
+
+### Output
+<img width="573" alt="image" src="https://github.com/user-attachments/assets/48b3685d-a542-4b42-b2ad-7f2d99f5d0f8" />
+
+
+### General Output Overview
+- **Accuracy**: 75.1%
+- The model performs **best on negative comments (label 2)**, with **F1-score of 0.84** and **recall of 0.88**, indicating strong sensitivity to negative sentiment.
+- **Neutral comments (label 1)** show **balanced performance** with an **F1-score of 0.72**, making them the second most accurately classified.
+- **Positive comments (label 0)** are the most challenging..
+- **Macro-averaged F1-score** is **0.69**, showing the model handles all classes reasonably well despite class imbalance.
 
   ___
 🏷️ **License**: This project is open to use for anyone. You are free to use, modify, and distribute the code as needed.
