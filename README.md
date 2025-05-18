@@ -526,8 +526,6 @@ Lemmatized version: "respekt për kryeministër shembullor"
 ## Data Visualization
 To explore and communicate patterns from the Facebook comment sentiment dataset related to the Kosovo 2025 national elections, we implemented both **static** and **dynamic** visualizations.
 
----
-
 ### Static Analysis
 
 Using Python libraries such as `pandas`, `matplotlib`, and `seaborn`, the following visual insights were generated offline:
@@ -550,8 +548,6 @@ Using Python libraries such as `pandas`, `matplotlib`, and `seaborn`, the follow
 - **Comment Length vs Sentiment**  
   Boxplot examining whether longer comments correlate with a particular sentiment class.
 
----
-
 ### Dynamic Analysis (Interactive Dashboard)
 
 An interactive dashboard was developed using [Streamlit](https://streamlit.io) to allow real-time filtering and visualization of sentiment data.
@@ -564,6 +560,9 @@ An interactive dashboard was developed using [Streamlit](https://streamlit.io) t
 - **Weekly Sentiment Line Chart**: Displays weekly sentiment averages.
 - **Random Sample Viewer**: Displays random comments per sentiment.
 - **Label Mapping**: Clear formatting of `0 = Neutral`, `1 = Positive`, `2 = Negative`.
+
+### Dashboard
+![image](https://github.com/user-attachments/assets/20c588e6-1c98-4ad6-9c09-769510e248c0)
 
 #### ▶️ Run the Dashboard
 
@@ -616,8 +615,8 @@ The majority class (label 2) is predicted correctly with high accuracy (≈ 88 %
 ### General Output Overview
 - **Accuracy**: 75.1%
 - The model performs **best on negative comments (label 2)**, with **F1-score of 0.84** and **recall of 0.88**, indicating strong sensitivity to negative sentiment.
-- **Neutral comments (label 1)** show **balanced performance** with an **F1-score of 0.72**, making them the second most accurately classified.
-- **Positive comments (label 0)** are the most challenging..
+- **Positive comments (label 1)** show **balanced performance** with an **F1-score of 0.72**, making them the second most accurately classified.
+- **Neutral comments (label 0)** are the most challenging..
 - **Macro-averaged F1-score** is **0.69**, showing the model handles all classes reasonably well despite class imbalance.
 
   ___
