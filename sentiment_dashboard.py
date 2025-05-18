@@ -51,7 +51,7 @@ st.title("🗳️ Kosovo Election 2025 - Comment Sentiment Dashboard")
 # 📊 Sentiment distribution
 st.header("📊 Sentiment Distribution")
 sentiment_counts = filtered_df["label"].value_counts().sort_index()
-sentiment_counts.index = ["Positive (0)", "Neutral (1)", "Negative (2)"]
+sentiment_counts.index = ["Neutral (0)", "Positive (1)", "Negative (2)"]
 st.bar_chart(sentiment_counts)
 
 # 📈 Weekly sentiment trend
