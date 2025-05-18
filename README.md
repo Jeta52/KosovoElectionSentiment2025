@@ -619,5 +619,20 @@ The majority class (label 2) is predicted correctly with high accuracy (≈ 88 %
 - **Neutral comments (label 0)** are the most challenging..
 - **Macro-averaged F1-score** is **0.69**, showing the model handles all classes reasonably well despite class imbalance.
 
+## RNN With Logistic Regression
+**logistic_regression_sentiment.py** is the file that implements a hybrid **RNN + Logistic Regression** architecture for classifying the comments into sentiment categories (0, 1, 2). It uses a **Recurrent Neural Network (RNN)** to extract deep semantic features from comment text and then applies Logistic Regression to perform the final classification based on those features.
+
+These tools are used as follows:
+
+- **Keras (TensorFlow)** is used to build and train the RNN with an Embedding and LSTM layer.
+- **Scikit-learn** is used for logistic regression, scaling features (StandardScaler), splitting datasets, and evaluating metrics like accuracy and F1-score.
+
+The **RNN** acts as a text feature extractor: it learns contextual word embeddings and sequence patterns in the comments. In this setup, it is not used directly for classification, but instead its learned representations are passed to a logistic regression model for classification. This combines the representational power of deep learning with the simplicity and speed of traditional machine learning.
+
+The evaluation is based on:
+**Accuracy** and **classification** reports printed for both datasets (raw and lemmatized),
+A visual screenshot of the output below shows training progression and classification metrics:
+
+![image](https://github.com/user-attachments/assets/678bfe5e-c15f-43b8-8e2f-3306998c8c38)
   ___
 🏷️ **License**: This project is open to use for anyone. You are free to use, modify, and distribute the code as needed.
