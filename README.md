@@ -382,6 +382,17 @@ The script reads data from this CSV file:
    - Predicts on the test set.
    - Calculates **accuracy**, **precision**, **recall**, and **F1-score** using `classification_report` from `sklearn`.
   
+In order to find and improve the best results and training parameters from XML-Roberta we have tested using and tweaking different approaches - you can find the said approaches on this [Google Colab](https://colab.research.google.com/drive/1dLjLjSoWx3kQRUq9pphmkysdIv7XE9Fh?usp=sharing).
+
+### 🛠️ Model Details
+- **Backbone**: `xlm-roberta-base` (multilingual)
+- **Batch size**: 8 (with gradient accumulation for stability)
+- **Epochs**: 4 (with early stopping enabled)
+- **Learning rate**: `1e-5` with warm-up ratio `0.06`
+- **Evaluation metric**: `macro_f1`
+- **Tokenization**: Truncation with `max_length=128` and fixed padding
+- **Class balancing**: Optional weighting support can be added if needed
+
 ### Output
 <img width="479" alt="image" src="https://github.com/user-attachments/assets/1024c931-2497-4d80-95e5-b3172a5950d8" />
 
