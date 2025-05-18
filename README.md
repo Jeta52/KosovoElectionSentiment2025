@@ -393,14 +393,42 @@ In order to find and improve the best results and training parameters from XML-R
 - **Tokenization**: Truncation with `max_length=128` and fixed padding
 - **Class balancing**: Optional weighting support can be added if needed
 
-### Output
-<img width="479" alt="image" src="https://github.com/user-attachments/assets/1024c931-2497-4d80-95e5-b3172a5950d8" />
+### 📊 Training Diagnostics Highlights
 
-#### General output overview
-- Accuracy: **72.37%**
-- Best performance was on negative comments (2) with high recall and F1-score.
-- Positive comments (0) had the lowest recall, meaning many were missed.
-- Neutral comments (1) had balanced performance but lower than negative.
+![image](https://github.com/user-attachments/assets/5ef4a2a3-c760-45d8-8cc6-760090c58b5f)
+
+**Loss curves** show consistent decrease in both training and evaluation loss, indicating stable learning and no overfitting.
+
+![image](https://github.com/user-attachments/assets/15d68bbd-0b97-4132-921e-35c57d131826)
+
+**Class 2** achieves high scores across all metrics (F1 ≈ 0.83), showing the model's strength in handling the majority class.
+
+![image](https://github.com/user-attachments/assets/1df891a3-2efd-42a7-be83-8aa8cf9eedad)
+
+**Macro-F1 steadily improves** from 0.63 to 0.69, confirming that the model is learning across all classes.
+
+![image](https://github.com/user-attachments/assets/dc966511-e491-40ad-b8a9-15b666debb86)
+
+The majority class (label 2) is predicted correctly with high accuracy (≈ 88 % recall).
+
+![image](https://github.com/user-attachments/assets/0fb18d5a-22c7-4d4e-9deb-597e68f1595c)
+
+**Prediction confidence** remains high and well-calibrated, with test predictions showing consistent confidence near 0.9+.
+
+![image](https://github.com/user-attachments/assets/a0c8bb75-c841-4c4a-828f-084e5d00a20f)
+
+**Class 0** achieves solid PR-AUC (0.52) despite imbalance, and **class 1** maintains good tradeoff between precision and recall.
+
+### Output
+<img width="573" alt="image" src="https://github.com/user-attachments/assets/48b3685d-a542-4b42-b2ad-7f2d99f5d0f8" />
+
+
+### General Output Overview
+- **Accuracy**: 75.1%
+- The model performs **best on negative comments (label 2)**, with **F1-score of 0.84** and **recall of 0.88**, indicating strong sensitivity to negative sentiment.
+- **Neutral comments (label 1)** show **balanced performance** with an **F1-score of 0.72**, making them the second most accurately classified.
+- **Positive comments (label 0)** are the most challenging..
+- **Macro-averaged F1-score** is **0.69**, showing the model handles all classes reasonably well despite class imbalance.
 
 
 ## XGBoost for Sentiment Classification
