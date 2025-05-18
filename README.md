@@ -619,6 +619,18 @@ The majority class (label 2) is predicted correctly with high accuracy (≈ 88 %
 - **Neutral comments (label 0)** are the most challenging..
 - **Macro-averaged F1-score** is **0.69**, showing the model handles all classes reasonably well despite class imbalance.
 
+## TextCNN With Random Forest
+**random_forest_sentiment_text_cnn.py** implements a TextCNN + Random Forest hybrid architecture for sentiment classification on Albanian Facebook comments. A Convolutional Neural Network (CNN) is used to extract local n-gram features from text, and a Random Forest classifier is trained on those features for final sentiment prediction.
+
+These tools are used as follows:
+
+- **Keras (TensorFlow)** is used to build the CNN model with layers like Embedding, Conv1D, and GlobalMaxPooling for feature extraction.
+- **Scikit-learn** is used for Random Forest classification, dataset splitting, feature standardization, and evaluation metrics such as accuracy and F1-score.
+
+The **TextCNN** model captures spatial patterns in the comments, particularly useful in short text like Facebook posts. Instead of using CNN directly for classification, its internal learned features are extracted and passed to a Random Forest model.
+
+![image](https://github.com/user-attachments/assets/5ca18607-aa2e-4f7d-b942-07be98446f33)
+
 ## RNN With Logistic Regression
 **logistic_regression_sentiment.py** is the file that implements a hybrid **RNN + Logistic Regression** architecture for classifying the comments into sentiment categories (0, 1, 2). It uses a **Recurrent Neural Network (RNN)** to extract deep semantic features from comment text and then applies Logistic Regression to perform the final classification based on those features.
 
