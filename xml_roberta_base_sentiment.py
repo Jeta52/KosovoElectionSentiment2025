@@ -16,6 +16,7 @@ from transformers import (
     EarlyStoppingCallback
 )
 
+# The different testing scenerios and cases can be found on this Google Colab link: https://colab.research.google.com/drive/1dLjLjSoWx3kQRUq9pphmkysdIv7XE9Fh?usp=sharing
 data_path = "scraped_datasets/fb_comments/SAMPLE_ALL_COMMENTS_PREPROCESSED_DATASET.99.csv"
 df = pd.read_csv(data_path)
 
